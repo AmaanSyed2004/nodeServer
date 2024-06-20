@@ -1,0 +1,20 @@
+Build REST APIs for Login and Register in Node.js with JWT token authentication and user roles
+ 
+User roles : 1) super-admin
+			 2) client-admin
+			 3) client-user
+Register sample payload ==> {
+    "username": "xyz",
+    "email": "xyz",
+    "password": "xyz",
+	"mobile number": "123",
+	"address line_1": "abc",
+	"address line_2": "abc",
+	"pincode": "123",
+    "roles": ["roles"]
+}
+ 
+Requirements:
+ 
+- The registration response should store data with a UUIDv7 in the database.
+- Login should be done using the username and password ,as response to be generated JWT token.
