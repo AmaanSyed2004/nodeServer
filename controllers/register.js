@@ -16,7 +16,6 @@ const register = async (req, res) => {
     } = req.body; //destructring
     if (User.findOne({ username })) {
       // username is already taken
-      console.log(User.findOne({ username }));
       res
         .status(400)
         .json({ message: "Username already exists, please try again" });
@@ -39,20 +38,4 @@ const register = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-const login = async (req, res) => {
-  const { username, password } = req.body;
-  const userToCheck = await User.findOne({ username });
-  if (!userToCheck) {
-    res.status(400).json({ message: "Username not found" });
-    return;
-  }
-  const match = await bcrypt.compare(password, userToCheck.password);
-  if (!match) {
-    return res.status(400).json({ message: "Invalid password" });
-  }
-  const token = generateToken(userToCheck);
-  res.json({ token });
-};
-exports.register = register;
-exports.login = login;
+module.exports = register;
