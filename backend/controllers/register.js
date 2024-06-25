@@ -14,7 +14,7 @@ const register = async (req, res) => {
       pincode,
       roles,
     } = req.body; //destructring
-    if (User.findOne({ username })) {
+    if (await User.findOne({ username })) {
       // username is already taken
       res
         .status(400)
