@@ -2,9 +2,11 @@ const express = require("express");
 const connectToDb = require("./config/db");
 const router = require("./routes/routes");
 const app = express();
-const cookieParser= require('cookie-parser')
+const cookieParser= require('cookie-parser');
+const allowCors = require("./middleware/cors");
 app.use(cookieParser())
 app.use(express.json());
+app.use(allowCors)
 app.use(express.urlencoded({ extended: true }));
 connectToDb();  
 
