@@ -8,7 +8,7 @@ export default function InputPlaceholder() {
         username: "",
         password: ""
     });
-
+    
     // Handler function for input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -21,7 +21,6 @@ export default function InputPlaceholder() {
     async function handleSubmit(e){
         e.preventDefault();
         try {
-            console.log("submitting " + formData)
             const response= await axios.post("http://localhost:3000/login",formData, {withCredentials: 'true'})
             console.log(response.data)
         } catch (error) {
