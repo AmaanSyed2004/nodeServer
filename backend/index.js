@@ -20,5 +20,4 @@ app.use("/", routes);
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");
-  console.log("Swagger docs are available at http://localhost:3000/api-docs");
 });
