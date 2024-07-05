@@ -6,6 +6,7 @@ const router = express.Router();
 const protected = require("../controllers/protected");
 const login = require('../controllers/login');
 const register = require('../controllers/register');
+const logout = require('../controllers/logout');
 
 /**
  * @swagger
@@ -20,14 +21,26 @@ const register = require('../controllers/register');
  *             type: object
  *             properties:
  *               username:
- *                 type: string
+ *                 type: string        
  *               password:
  *                 type: string
+ *               email:
+ *                  type: string 
+ *               mobileNumber:
+ *                  type: integer
+ *               addressLine1:
+ *                  type: string
+ *               addressLine2:
+ *                  type: string
+ *               pincode:
+ *                  type: integer
  *     responses:
  *       201:
  *         description: User registered successfully
  *       400:
  *         description: Username Already exists
+ *       500:
+ *         description: Internal Server Error
  */
 router.post('/register', register);
 
@@ -75,4 +88,14 @@ router.post('/login', login);
  */
 router.get('/protected', checkAuth, protected);
 
+/**
+ * @swagger
+ * /logout:
+ *  get:
+ *      summary: Logout the user by removing the auth token cookie
+ *      responses:
+ *          200:
+ *              description: User successfully logged out
+ */
+router.get('/logout',logout)
 module.exports = router;
