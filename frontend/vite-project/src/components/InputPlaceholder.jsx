@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Login from "../assets/login.svg";
 import axios from 'axios'
 export default function InputPlaceholder() {
@@ -8,7 +8,7 @@ export default function InputPlaceholder() {
         username: "",
         password: ""
     });
-    
+    const navigate= useNavigate()
     // Handler function for input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -23,6 +23,7 @@ export default function InputPlaceholder() {
         try {
             const response= await axios.post("http://localhost:3000/login",formData, {withCredentials: 'true'})
             console.log(response.data)
+            navigate('/profile')
         } catch (error) {
             console.error(error)
         }
