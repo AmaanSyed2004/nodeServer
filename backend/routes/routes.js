@@ -96,6 +96,8 @@ router.get('/protected', checkAuth, protected);
  *      responses:
  *          200:
  *              description: User successfully logged out
+ *          404:
+ *              description: No cookie found
  */
 router.get('/logout',logout)
 module.exports = router;
