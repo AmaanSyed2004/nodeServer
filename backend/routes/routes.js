@@ -7,6 +7,8 @@ const protected = require("../controllers/protected");
 const login = require('../controllers/login');
 const register = require('../controllers/register');
 const logout = require('../controllers/logout');
+const requestOtp = require('../controllers/requestOtp');
+const verifyOTP = require('../controllers/verifyOtp');
 
 /**
  * @swagger
@@ -100,4 +102,9 @@ router.get('/protected', checkAuth, protected);
  *              description: No cookie found
  */
 router.get('/logout',logout)
+
+router.post('/send-otp',requestOtp)
+
+router.post('/verify-otp', verifyOTP)
+
 module.exports = router;
