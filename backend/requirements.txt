@@ -18,3 +18,13 @@ Requirements:
  
 - The registration response should store data with a UUIDv7 in the database.
 - Login should be done using the username and password ,as response to be generated JWT token.
+
+Update:
+	1) User Registration and Email Verification:
+		- Implement user registration with email verification. After users register, send them a confirmation email containing an OTP (one-time password) or a link to verify their email address.
+		- Ensure that the verification process is secure and user-friendly.
+	2) Invitation Workflow:
+		- Create an invitation system where:
+	> Super admins can invite client admins.
+	> Client admins can invite users.
+		- Design an API for handling invitations, including necessary parameters (e.g., email addresses, roles, etc..).
