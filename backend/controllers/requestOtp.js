@@ -11,15 +11,22 @@ const requestOtp = async (req, res) => {
     upperCaseAlphabets: false,
     specialChars: false,
   });
-  const otpEntry= new OTP({email, otpToSend})
-  await otpEntry.save()
-  try{
-    mailSender({email, otpToSend})
-    res.status(200).json({message: "OTP sent to " + email})
+  let previousEntry = await OTP.findOne({ email });
+  if (!previousEntry) {
+    let otpEntry = new OTP({ email, otp: otpToSend });
+    await otpEntry.save();
   }
-  catch(err){
-    res.status(400).json({message: "Error sending OTP: "+ err})
+  else{
+    //change old otp to new otp
+    previousEntry.otp= otpToSend;
+    await previousEntry.save();
+  }
+  try {
+    mailSender({ email, otpToSend });
+    res.status(200).json({ message: "OTP sent to " + email });
+  } catch (err) {
+    res.status(400).json({ message: "Error sending OTP: " + err });
   }
 };
 
-module.exports= requestOtp
+module.exports = requestOtp;
