@@ -1,10 +1,19 @@
 const otpGenerator = require("otp-generator");
 const OTP = require("../models/otp");
 const mailSender = require("../utils/mailSender");
+const User = require("../models/user");
 const requestOtp = async (req, res) => {
   const { email } = req.body;
   if (!email) {
     res.status(400).json({ message: "Email is required" });
+  }
+  const user= await User.findOne({email})
+  if (!user){
+    return res.status(404).json({message: "Account not found, please register"})
+  }
+  console.log(user.verified)
+  if (user.verified){
+    return res.status(200).json({message: "Email is already verified"})
   }
   const otpToSend = otpGenerator.generate(6, {
     lowerCaseAlphabets: false,
