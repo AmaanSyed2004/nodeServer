@@ -40,6 +40,10 @@ roles: {
     type: [String],
     default: ['client-user'],
     enum: ['client-user', 'client-admin', 'super-admin']
+},
+verified :{
+  type: Boolean,
+  default: false,
 }
 });
 
