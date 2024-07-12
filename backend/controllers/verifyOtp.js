@@ -20,6 +20,8 @@ const verifyOTP = async (req, res) => {
 
   //User is OTP verified, update the 'verified' instance in user schema
   user.verified = true;
+
+  //spent an hour debugging why isnt the verified field updating and realised i didnt save. Nice 
   await user.save();
   res.status(200).json({ message: "OTP Verified!" });
 };

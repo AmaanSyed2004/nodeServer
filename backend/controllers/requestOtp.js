@@ -11,7 +11,6 @@ const requestOtp = async (req, res) => {
   if (!user){
     return res.status(404).json({message: "Account not found, please register"})
   }
-  console.log(user.verified)
   if (user.verified){
     return res.status(200).json({message: "Email is already verified"})
   }
@@ -26,7 +25,7 @@ const requestOtp = async (req, res) => {
     await otpEntry.save();
   }
   else{
-    //change old otp to new otp
+    //change the old otp sent to the new otp to avoid collisions
     previousEntry.otp= otpToSend;
     await previousEntry.save();
   }
