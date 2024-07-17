@@ -9,6 +9,8 @@ const register = require('../controllers/register');
 const logout = require('../controllers/logout');
 const requestOtp = require('../controllers/requestOtp');
 const verifyOTP = require('../controllers/verifyOtp');
+const { verifySuper } = require('../middleware/rolemiddleware');
+const inviteAdmin = require('../controllers/inviteAdmin');
 
 /**
  * @swagger
@@ -107,4 +109,5 @@ router.post('/send-otp',requestOtp)
 
 router.post('/verify-otp', verifyOTP)
 
+router.post('/invite-admin', verifySuper, inviteAdmin )
 module.exports = router;
