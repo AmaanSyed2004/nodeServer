@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
-const inviteAdminMail = async ({ email, token }) => {
+const inviteAdminMail = async ({ email, token, role }) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -13,7 +13,7 @@ const inviteAdminMail = async ({ email, token }) => {
       from: "amaansbackup@gmail.com",
       to: email,
       subject: "You have been invited to join our application",
-      text: `Hey there! You have been invited to join our application as an admin. Please use this code: ${token} `,
+      text: `Hey there! You have been invited to join our application as ${role}. Please use this code: ${token} `,
     };
 
     // the function implicitly exectures the inner function to send the mail to the user as per the give email address
