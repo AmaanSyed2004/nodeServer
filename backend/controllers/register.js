@@ -12,7 +12,7 @@ const register = async (req, res) => {
       addressLine1,
       addressLine2,
       pincode,
-      roles,
+      role,
     } = req.body; //destructring
     if (await User.findOne({ username })) {
       // username is already taken
@@ -30,11 +30,12 @@ const register = async (req, res) => {
       addressLine1,
       addressLine2,
       pincode,
-      roles,
+      role,
     });
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

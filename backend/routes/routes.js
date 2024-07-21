@@ -10,7 +10,8 @@ const logout = require('../controllers/logout');
 const requestOtp = require('../controllers/requestOtp');
 const verifyOTP = require('../controllers/verifyOtp');
 const { verifySuper } = require('../middleware/rolemiddleware');
-const inviteAdmin = require('../controllers/inviteAdmin');
+const inviteAdmin = require('../controllers/Invitation/inviteAdmin');
+const acceptAdmin = require('../controllers/Invitation/acceptAdmin');
 
 /**
  * @swagger
@@ -110,4 +111,5 @@ router.post('/send-otp',requestOtp)
 router.post('/verify-otp', verifyOTP)
 
 router.post('/invite-admin', verifySuper, inviteAdmin )
+router.post('/accept-admin', acceptAdmin )
 module.exports = router;

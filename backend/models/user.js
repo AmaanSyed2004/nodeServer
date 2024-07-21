@@ -36,10 +36,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   }
 ,
-roles: {
-    type: [String],
-    default: ['client-user'],
-    enum: ['client-user', 'client-admin', 'super-admin']
+role: {
+    type: String,
 },
 verified :{
   type: Boolean,
