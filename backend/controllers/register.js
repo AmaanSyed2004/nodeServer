@@ -21,6 +21,12 @@ const register = async (req, res) => {
         .json({ message: "Username already exists, please try again" });
       return;
     }
+    if (await User.findOne({email})){
+      return res.status(400).json({message: "Email is already registered"});
+    }
+    if (await User.findOne({mobileNumber})){
+      return res.status(400).json({message: "Mobile number already in use."});
+    }
     const hashedPW = await bcrypt.hash(password, saltRounds);
     const newUser = new User({
       username,
