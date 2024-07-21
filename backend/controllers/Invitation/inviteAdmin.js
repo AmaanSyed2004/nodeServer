@@ -1,13 +1,13 @@
-const invitation = require('../models/inviteCodes');
-const inviteAdminMail = require('../utils/sendInviteAdminMail');
+const invitation = require('../../models/inviteCodes');
+const inviteAdminMail = require('../../utils/sendInviteAdminMail');
 
 const inviteAdmin= async(req,res)=>{
-    const {email, role}= req.body;
-    if (!email || !role) return res.status(404).json({message: "Email and role are required"})
+    const {email}= req.body;
+    if (!email) return res.status(404).json({message: "Email is required"})
     const token = require('crypto').randomBytes(30).toString('hex');
     const invite= new invitation({
         email,
-        role,
+        role:"client-admin",
         inviteCode: token,
 
     })
