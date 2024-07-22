@@ -1,7 +1,7 @@
 const invitation = require("../../models/inviteCodes");
 const inviteAdminMail = require("../../utils/sendInviteMail");
 
-const inviteAdmin = async (req, res) => {
+const inviteUser = async (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(404).json({ message: "Email is required" });
   const token = require("crypto").randomBytes(30).toString("hex");
@@ -19,4 +19,4 @@ const inviteAdmin = async (req, res) => {
   }
 };
 
-module.exports = inviteAdmin;
+module.exports = inviteUser;

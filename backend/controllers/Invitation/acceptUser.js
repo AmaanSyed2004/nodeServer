@@ -2,7 +2,7 @@ const invitation = require("../../models/inviteCodes");
 const User = require("../../models/user");
 const register = require("../register");
 //todo: validate the code/token , and then proceed the user to register.
-const acceptAdmin = async (req, res) => {
+const acceptUser = async (req, res) => {
   const { email, token } = req.body;
   const invitedUser = await invitation.findOne({ email });
   if (!invitedUser) {
@@ -14,4 +14,4 @@ const acceptAdmin = async (req, res) => {
   req.body.role= 'client-user'
   await register(req,res);
 };
-module.exports= acceptAdmin
+module.exports= acceptUser
