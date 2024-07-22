@@ -12,7 +12,7 @@ const requestOtp = async (req, res) => {
     return res.status(404).json({message: "Account not found, please register"})
   }
   if (user.verified){
-    return res.status(200).json({message: "Email is already verified"})
+    return res.status(409).json({message: "Account is already verified"})
   }
   const otpToSend = otpGenerator.generate(6, {
     lowerCaseAlphabets: false,
