@@ -1,6 +1,5 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const generateToken = require("../utils/token");
 const saltRounds = 10; // salt rounds for bcrypt
 const register = async (req, res) => {
   try {
