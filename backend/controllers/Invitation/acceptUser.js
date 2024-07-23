@@ -1,6 +1,6 @@
 const invitation = require("../../models/inviteCodes");
 const User = require("../../models/user");
-const register = require("../register");
+const register = require("../../utils/register");
 //todo: validate the code/token , and then proceed the user to register.
 const acceptUser = async (req, res) => {
   const { email, token } = req.body;
