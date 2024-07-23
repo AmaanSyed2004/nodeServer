@@ -1,53 +1,17 @@
-// backend/routes/routes.js
-
-const express = require('express');
-const checkAuth = require('../middleware/authmiddleware');
-const router = express.Router();
+const express = require("express");
+const checkAuth = require("../middleware/authmiddleware");
 const protected = require("../controllers/protected");
-const login = require('../controllers/login');
-const register = require('../controllers/register');
-const logout = require('../controllers/logout');
-const requestOtp = require('../controllers/requestOtp');
-const verifyOTP = require('../controllers/verifyOtp');
-const { verifySuper } = require('../middleware/rolemiddleware');
-const inviteAdmin = require('../controllers/Invitation/inviteAdmin');
-const acceptAdmin = require('../controllers/Invitation/acceptAdmin');
+const login = require("../controllers/login");
+const logout = require("../controllers/logout");
+const requestOtp = require("../controllers/requestOtp");
+const verifyOTP = require("../controllers/verifyOtp");
+const { verifySuper, verifyAdmin } = require("../middleware/rolemiddleware");
+const inviteAdmin = require("../controllers/Invitation/inviteAdmin");
+const acceptAdmin = require("../controllers/Invitation/acceptAdmin");
+const inviteUser = require("../controllers/Invitation/inviteUser");
+const acceptUser = require("../controllers/Invitation/acceptUser");
 
-/**
- * @swagger
- * /register:
- *   post:
- *     summary: Register a new user
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string        
- *               password:
- *                 type: string
- *               email:
- *                  type: string 
- *               mobileNumber:
- *                  type: integer
- *               addressLine1:
- *                  type: string
- *               addressLine2:
- *                  type: string
- *               pincode:
- *                  type: integer
- *     responses:
- *       201:
- *         description: User registered successfully
- *       400:
- *         description: Username Already exists
- *       500:
- *         description: Internal Server Error
- */
-router.post('/register', register);
+const router = express.Router();
 
 /**
  * @swagger
@@ -78,7 +42,7 @@ router.post('/register', register);
  *       401:
  *         description: Username Not found / Invalid password
  */
-router.post('/login', login);
+router.post("/login", login);
 
 /**
  * @swagger
@@ -91,7 +55,7 @@ router.post('/login', login);
  *       401:
  *         description: Unauthorized
  */
-router.get('/protected', checkAuth, protected);
+router.get("/protected", checkAuth, protected);
 
 /**
  * @swagger
@@ -104,12 +68,189 @@ router.get('/protected', checkAuth, protected);
  *          404:
  *              description: No cookie found
  */
-router.get('/logout',logout)
+router.get("/logout", logout);
+/**
+ * @swagger
+ * /send-otp:
+ *  post:
+ *      summary: Send an otp to the email of the user to verify the account.
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                           email:
+ *                              type: string
+ *      responses:
+ *          200:
+ *              description: Otp is sent to the input email
+ *          400:
+ *              description: Email not attached to the content
+ *          404:
+ *              description: Account is not found, need to register the email first.
+ *          409:
+ *              description: Email is already verified
+ */
+router.post("/send-otp", requestOtp);
+/**
+ *@swagger
+ * /verify-otp:
+ *  post:
+ *      summary: Verify the otp recieved on the email.
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          otp:
+ *                              type: string
+ *          responses:
+ *              200:
+ *                  description: Otp is correct, the user is now verified.
+ *              400:
+ *                  description: Email or otp is not found
+ *              403:
+ *                  description: Invalid otp has been sent.
+ *              404:
+ *                  description: Account not found (invalid email)
+ */
+router.post("/verify-otp", verifyOTP);
 
-router.post('/send-otp',requestOtp)
+/**
+ * @swagger
+ * /invite-admin:
+ *   post:
+ *     summary: Invite a new admin to join the application. The user inviting must be a super-admin.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                  type: string
+ *     responses:
+ *       201:
+ *         description: Invitation code sent successfully
+ *       403:
+ *         description: Invalid role i.e. the user is not super admin.
+ *       404:
+ *         description: Role not found in cookie, need to login first. 
+ *       500:
+ *         description: Internal Server Error
+ */
 
-router.post('/verify-otp', verifyOTP)
+router.post("/invite-admin", verifySuper, inviteAdmin);
 
-router.post('/invite-admin', verifySuper, inviteAdmin )
-router.post('/accept-admin', acceptAdmin )
+/**
+ * @swagger
+ * /accept-admin:
+ *   post:
+ *     summary: Register a new user with the given role(admin).
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               email:
+ *                  type: string
+ *               mobileNumber:
+ *                  type: integer
+ *               addressLine1:
+ *                  type: string
+ *               addressLine2:
+ *                  type: string
+ *               pincode:
+ *                  type: integer
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Username/email/mobile number Already exists
+ *       403:
+ *         description: Invalid invite code. 
+ *       500:
+ *         description: Internal Server Error
+ */
+router.post("/accept-admin", acceptAdmin);
+/**
+ * @swagger
+ * /invite-user:
+ *   post:
+ *     summary: Invite a new user to join the application. The user inviting must be a super-admin OR a client-admin.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                  type: string
+ *     responses:
+ *       201:
+ *         description: Invitation code sent successfully
+ *       403:
+ *         description: Invalid role i.e. the user is not super admin or client-admin.
+ *       404:
+ *         description: Role not found in cookie, need to login first. 
+ *       500:
+ *         description: Internal Server Error
+ */
+
+router.post("/invite-user", verifySuper || verifyAdmin, inviteUser);
+/**
+ * @swagger
+ * /accept-user:
+ *   post:
+ *     summary: Register a new user with the given role(admin).
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               email:
+ *                  type: string
+ *               mobileNumber:
+ *                  type: integer
+ *               addressLine1:
+ *                  type: string
+ *               addressLine2:
+ *                  type: string
+ *               pincode:
+ *                  type: integer
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Username/email/mobile number Already exists
+ *       403:
+ *         description: Invalid invite code. 
+ *       500:
+ *         description: Internal Server Error
+ */
+router.post("/accept-user", acceptUser);
 module.exports = router;
