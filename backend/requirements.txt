@@ -28,3 +28,9 @@ Update:
 	> Super admins can invite client admins.
 	> Client admins can invite users.
 		- Design an API for handling invitations, including necessary parameters (e.g., email addresses, roles, etc..).
+
+Update #2:
+	1) Add a GET API to list all the users under a particular organization (client-admin).
+	2) Add a GET API to list all the client-admins under super-admins.
+	3) Implement 2-factor authentication for the login API.
+	3) It would be useful to implement a UI for the application.
