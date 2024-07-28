@@ -12,6 +12,7 @@ const acceptUser = async (req, res) => {
     return res.status(403).json({message:"Invalid invite code. Please try again."})
   }
   req.body.role= 'client-user'
+  req.body.inviter= invitedUser.invitedBy;
   await register(req,res);
 };
 module.exports= acceptUser

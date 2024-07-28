@@ -11,7 +11,8 @@ const acceptAdmin = async (req, res) => {
   if (!(token===invitedUser.inviteCode)){
     return res.status(403).json({message:"Invalid invite code. Please try again."})
   }
-  req.body.role= 'client-admin'
+  req.body.role= 'client-admin';
+  req.body.inviter= invitedUser.invitedBy;
   await register(req,res);
 };
 module.exports= acceptAdmin
