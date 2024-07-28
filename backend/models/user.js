@@ -42,6 +42,10 @@ role: {
 verified :{
   type: Boolean,
   default: false,
+},
+invitedBy:{
+  type: String,
+  required: true,
 }
 });
 
