@@ -32,13 +32,6 @@ const router = express.Router();
  *     responses:
  *       200:
  *         description: Successful login, Cookie is sent with the JWT
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       401:
  *         description: Username Not found / Invalid password
  */
@@ -95,7 +88,7 @@ router.get("/logout", logout);
  */
 router.post("/send-otp", requestOtp);
 /**
- *@swagger
+ * @swagger
  * /verify-otp:
  *  post:
  *      summary: Verify the otp recieved on the email.
@@ -110,15 +103,15 @@ router.post("/send-otp", requestOtp);
  *                              type: string
  *                          otp:
  *                              type: string
- *          responses:
- *              200:
- *                  description: Otp is correct, the user is now verified.
- *              400:
- *                  description: Email or otp is not found
- *              403:
- *                  description: Invalid otp has been sent.
- *              404:
- *                  description: Account not found (invalid email)
+ *      responses:
+ *          200:
+ *              description: Otp is correct, the user is now verified.
+ *          400:
+ *              description: Email or otp is not found
+ *          403:
+ *              description: Invalid otp has been sent.
+ *          404:
+ *              description: Account not found (invalid email)
  */
 router.post("/verify-otp", verifyOTP);
 
@@ -218,7 +211,7 @@ router.post("/invite-user", verifySuper || verifyAdmin, inviteUser);
  * @swagger
  * /accept-user:
  *   post:
- *     summary: Register a new user with the given role(admin).
+ *     summary: Register a new user with the given role(user).
  *     requestBody:
  *       required: true
  *       content:
