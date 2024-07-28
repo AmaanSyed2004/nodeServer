@@ -17,6 +17,10 @@ const invitationSchema= new mongoose.Schema({
     accepted:{
         type:  Boolean,
         default: false,
+    },
+    invitedBy:{
+        type: String,
+        required: true,
     }
 })
 
