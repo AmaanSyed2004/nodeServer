@@ -10,6 +10,8 @@ const inviteAdmin = require("../controllers/Invitation/inviteAdmin");
 const acceptAdmin = require("../controllers/Invitation/acceptAdmin");
 const inviteUser = require("../controllers/Invitation/inviteUser");
 const acceptUser = require("../controllers/Invitation/acceptUser");
+const getUnderAdmin = require("../controllers/getUnderAdmin");
+const getUnderSuper = require("../controllers/getUnderSuper");
 
 const router = express.Router();
 
@@ -135,7 +137,7 @@ router.post("/verify-otp", verifyOTP);
  *       403:
  *         description: Invalid role i.e. the user is not super admin.
  *       404:
- *         description: Role not found in cookie, need to login first. 
+ *         description: Role not found in cookie, need to login first.
  *       500:
  *         description: Internal Server Error
  */
@@ -176,7 +178,7 @@ router.post("/invite-admin", verifySuper, inviteAdmin);
  *       400:
  *         description: Username/email/mobile number Already exists
  *       403:
- *         description: Invalid invite code. 
+ *         description: Invalid invite code.
  *       500:
  *         description: Internal Server Error
  */
@@ -201,7 +203,7 @@ router.post("/accept-admin", acceptAdmin);
  *       403:
  *         description: Invalid role i.e. the user is not super admin or client-admin.
  *       404:
- *         description: Role not found in cookie, need to login first. 
+ *         description: Role not found in cookie, need to login first.
  *       500:
  *         description: Internal Server Error
  */
@@ -241,9 +243,13 @@ router.post("/invite-user", verifySuper || verifyAdmin, inviteUser);
  *       400:
  *         description: Username/email/mobile number Already exists
  *       403:
- *         description: Invalid invite code. 
+ *         description: Invalid invite code.
  *       500:
  *         description: Internal Server Error
  */
 router.post("/accept-user", acceptUser);
+
+router.get("/under-client-admin", verifyAdmin, getUnderAdmin);
+
+router.get("/under-super-admin", verifySuper, getUnderSuper);
 module.exports = router;
