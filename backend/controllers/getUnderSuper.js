@@ -9,3 +9,5 @@ const getUnderSuper= async(req,res)=>{
     if (!adminsUnderSuper) return res.status(404).json(({message: "No admins found under this super admin."}))
     return res.status(200).json(adminsUnderSuper);
 }
+
+module.exports= getUnderSuper;
