@@ -12,6 +12,7 @@ const register = async (req, res) => {
       addressLine2,
       pincode,
       role,
+      invitedBy,
     } = req.body; //destructring
     if (await User.findOne({ username })) {
       // username is already taken
@@ -36,6 +37,7 @@ const register = async (req, res) => {
       addressLine2,
       pincode,
       role,
+      invitedBy
     });
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
