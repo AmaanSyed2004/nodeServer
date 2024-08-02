@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const {v7: uuidv7}= require('uuid')
+const { v7: uuidv7 } = require("uuid");
 const userSchema = new mongoose.Schema({
-  id:{
+  id: {
     type: String,
     default: uuidv7,
   },
@@ -18,36 +18,39 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, "Please enter correct email"],
     unique: true,
   },
-  password:{
+  password: {
     required: true,
-    type:String,
+    type: String,
   },
-  mobileNumber:{
+  mobileNumber: {
     type: Number,
     required: true,
   },
-  addressLine1:{
+  addressLine1: {
     type: String,
     required: true,
   },
   addressLine2: String,
-  pincode:{
+  pincode: {
     type: Number,
     required: true,
-  }
-,
-role: {
+  },
+  role: {
     type: String,
-},
-verified :{
-  type: Boolean,
-  default: false,
-},
-invitedBy:{
-  type: String,
-  required: true,
-}
+  },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  invitedBy: {
+    type: String,
+    required: true,
+  },
+  secret:{
+    type: String,
+    required: true,
+  }
 });
 
-const User= mongoose.model('User', userSchema);
-module.exports= User;
+const User = mongoose.model("User", userSchema);
+module.exports = User;

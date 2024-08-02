@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const otplib= require("otplib")
+const qrcode= require('qrcode')
 const saltRounds = 10; // salt rounds for bcrypt
 const register = async (req, res) => {
   try {
@@ -28,6 +30,8 @@ const register = async (req, res) => {
       return res.status(400).json({message: "Mobile number already in use."});
     }
     const hashedPW = await bcrypt.hash(password, saltRounds);
+    const secret= otplib.authenticator.generateSecret();
+
     const newUser = new User({
       username,
       password: hashedPW,
@@ -37,9 +41,14 @@ const register = async (req, res) => {
       addressLine2,
       pincode,
       role,
-      invitedBy
+      invitedBy,
+      secret
     });
     await newUser.save();
+    const otpauth= otplib.authenticator.keyuri(username, 'MERN auth', secret)
+    qrcode.toDataURL(otpauth, (err, imageURL)=>{
+      if (err) res.status(500).json({message: "Error generating QR Code"})
+    })
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.log(error)
