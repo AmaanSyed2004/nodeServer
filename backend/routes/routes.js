@@ -175,6 +175,7 @@ router.post("/invite-admin", verifySuper, inviteAdmin);
  *     responses:
  *       201:
  *         description: User registered successfully
+ *              content:             
  *       400:
  *         description: Username/email/mobile number Already exists
  *       403:
