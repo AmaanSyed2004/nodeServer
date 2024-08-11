@@ -33,7 +33,7 @@ const router = express.Router();
  *                 type: string
  *     responses:
  *       200:
- *         description: Successful login, Cookie is sent with the JWT
+ *         description: Successful login, now verify 2FA
  *       401:
  *         description: Username Not found / Invalid password
  */
@@ -148,7 +148,7 @@ router.post("/invite-admin", verifySuper, inviteAdmin);
  * @swagger
  * /accept-admin:
  *   post:
- *     summary: Register a new user with the given role(admin).
+ *     summary: Register a new user with the given role (admin).
  *     requestBody:
  *       required: true
  *       content:
@@ -163,21 +163,32 @@ router.post("/invite-admin", verifySuper, inviteAdmin);
  *               password:
  *                 type: string
  *               email:
- *                  type: string
+ *                 type: string
  *               mobileNumber:
- *                  type: integer
+ *                 type: integer
  *               addressLine1:
- *                  type: string
+ *                 type: string
  *               addressLine2:
- *                  type: string
+ *                 type: string
  *               pincode:
- *                  type: integer
+ *                 type: integer
  *     responses:
  *       201:
  *         description: User registered successfully
- *              content:             
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User registered successfully
+ *                 qrCodeUrl:
+ *                   type: string
+ *                   description: URL to the generated QR code for 2FA.
+ *                   example: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...
  *       400:
- *         description: Username/email/mobile number Already exists
+ *         description: Username/email/mobile number already exists
  *       403:
  *         description: Invalid invite code.
  *       500:
@@ -241,8 +252,20 @@ router.post("/invite-user", verifySuper || verifyAdmin, inviteUser);
  *     responses:
  *       201:
  *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User registered successfully
+ *                 qrCodeUrl:
+ *                   type: string
+ *                   description: URL to the generated QR code for 2FA.
+ *                   example: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...
  *       400:
- *         description: Username/email/mobile number Already exists
+ *         description: Username/email/mobile number already exists
  *       403:
  *         description: Invalid invite code.
  *       500:
