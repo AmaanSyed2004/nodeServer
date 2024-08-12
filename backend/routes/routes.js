@@ -12,6 +12,7 @@ const inviteUser = require("../controllers/Invitation/inviteUser");
 const acceptUser = require("../controllers/Invitation/acceptUser");
 const getUnderAdmin = require("../controllers/getUnderAdmin");
 const getUnderSuper = require("../controllers/getUnderSuper");
+const login2FA = require("../controllers/login2FA");
 
 const router = express.Router();
 
@@ -273,6 +274,8 @@ router.post("/invite-user", verifySuper || verifyAdmin, inviteUser);
  */
 router.post("/accept-user", acceptUser);
 
+
+router.post("/login/2fa", login2FA)
 router.get("/under-client-admin", verifyAdmin, getUnderAdmin);
 
 router.get("/under-super-admin", verifySuper, getUnderSuper);
