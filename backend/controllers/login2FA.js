@@ -10,7 +10,7 @@ const login2FA= async(req,res)=>{
     
     const isValid= otplib.authenticator.check(OTP, user.secret)
     if (!isValid) return res.status(403).json({message: "Invalid Token"});
-    const token = generateToken(userToCheck);
+    const token = generateToken(user);
     res.cookie('authToken',token,{
         httpOnly:true,
         maxAge:24*60*60*1000
@@ -18,4 +18,4 @@ const login2FA= async(req,res)=>{
     return res.json({ message: "User logged in, info stored in cookie " });
 }
 
-mpdule.exports=login2FA
+module.exports=login2FA
