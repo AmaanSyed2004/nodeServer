@@ -1,13 +1,20 @@
-import Login from "./pages/Login"
-import "../app/globals.css"
-import { BrowserRouter } from "react-router-dom"
+import Login from "./pages/Login";
+import "../app/globals.css";
+import { BrowserRouter, Routes } from "react-router-dom";
+import { Toaster } from "./components/ui/toaster";
+import { Route } from "react-router-dom";
+import Login2fa from "./pages/Login2fa";
 function App() {
-  
   return (
-    <main className="flex justify-center items-center flex-col w-screen h-screen">
-      <Login/>
-    </main>
-  )
+    <BrowserRouter>
+      <Toaster />
+      <Routes>
+        <Route path="/login" element={<Login />}>
+          <Route path="2fa" element={<Login2fa />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
